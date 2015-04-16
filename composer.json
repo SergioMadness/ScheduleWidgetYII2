@@ -1,0 +1,25 @@
+{
+    "name": "datalayerru/schedule-widget-yii2",
+    "description": "Wrapper for angular-gantt",
+    "keywords": ["yii2", "angular-gantt", "Gantt diagramm"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "source": "https://github.com/DataLayerRU/ScheduleWidgetYII2"
+    },
+    "authors": [
+        {
+            "name": "Sergey Zinchenko",
+            "email": "info@datalayer.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "bower-asset/angular-gantt": "1.2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "datalayerru\\ScheduleWidget\\": ""
+        }
+    }
+}
