@@ -19,4 +19,8 @@ class WidgetAsset extends AssetBundle
         'js/app.js'
     ];
 
+    public $depends  = [
+        'datalayerru\ScheduleWidget\assetbundles\AngularAsset'
+    ];
+
 }
