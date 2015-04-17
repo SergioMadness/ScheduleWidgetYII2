@@ -15,7 +15,7 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "bower-asset/angular-gantt": "1.2.5"
+        "bower-asset/angular": "~1.4.0"
     },
     "autoload": {
         "psr-4": {
