@@ -91,7 +91,7 @@ class ScheduleWidget extends \yii\base\Widget
 
         foreach ($this->plugins as $key => $val) {
             $widgetClass = self::PLUGIN_PATH.'\\'.$key;
-            $result.=$widgetClass::widget($val);
+            $result.=$widgetClass::widget(['options' => $val]);
         }
 
         return $result;
