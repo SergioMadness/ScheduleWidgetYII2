@@ -48,6 +48,8 @@ echo ScheduleWidget::widget([
 ## Dependencies
 - [Yii2](http://www.yiiframework.com/)
 - [angularjs](https://angularjs.org/)
+- [angular-ui-tree](http://angular-ui-tree.github.io/website/)
+- [jQuery](http://jquery.com/)
 
 ## The MIT License
 

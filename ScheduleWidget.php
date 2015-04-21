@@ -27,6 +27,16 @@ class ScheduleWidget extends \yii\base\Widget
     const PLUGIN_TOOLTIP = 'PluginTooltip';
 
     /**
+     * Groups plugin
+     */
+    const PLUGIN_GROUPS = 'PluginGroups';
+
+    /**
+     * Tree plugin
+     */
+    const PLUGIN_TREE = 'PluginTree';
+
+    /**
      * Widgets' data. Example:
      * {
      *    "name": "Sprint 2",
