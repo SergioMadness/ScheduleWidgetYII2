@@ -20,7 +20,8 @@ class WidgetAsset extends AssetBundle
     ];
 
     public $depends  = [
-        'datalayerru\ScheduleWidget\assetbundles\AngularAsset'
+        'datalayerru\ScheduleWidget\assetbundles\AngularAsset',
+        'datalayerru\ScheduleWidget\assetbundles\UITreeAsset'
     ];
 
 }
