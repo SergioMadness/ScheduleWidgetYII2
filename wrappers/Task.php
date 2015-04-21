@@ -25,46 +25,8 @@ class Task
      */
     public $to;
 
-    /**
-     * Unique id of the task (Optional)
-     *
-     * @var string
-     */
-    public $id;
-
-    /**
-     * Color of the task in HEX format (Optional)
-     *
-     * @var string
-     */
-    public $color;
-
-    /**
-     * Array or String of class names which should be applied to the task. See ng-class documentation for details (Optional)
-     *
-     * @var mixed
-     */
-    public $classes;
-
-    /**
-     * Defines which of an overlapping task is on top (Optional). Tip: Leave property away for default behaviour
-     *
-     * @var integer
-     */
-    public $priority;
-
-    /**
-     * Custom object. Use this to attach your own data (Optional)
-     *
-     * @var mixed
-     */
-    public $data;
-
-    /**
-     * Content used in labels (Optional)
-     *
-     * @var string
-     */
-    public $content;
-
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
 }

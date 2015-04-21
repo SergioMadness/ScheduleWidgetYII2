@@ -1,4 +1,5 @@
-var scheduleWidget = angular.module('scheduleWidget', ['gantt', 'gantt.table', 'gantt.movable', 'gantt.tooltips']);
+var scheduleWidget = angular.module('scheduleWidget', ['gantt', 'gantt.table', 'gantt.movable', 'gantt.tooltips', 'gantt.tree',
+    'gantt.groups']);
 
 scheduleWidget.controller('mainGantt', function ($scope) {
     $scope.data = [
