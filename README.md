@@ -28,12 +28,26 @@ echo ScheduleWidget::widget([
         'column-magnet' => 'column', 
         'time-frames-magnet' => false
     ],
-    'plugins' => [ScheduleWidget::PLUGIN_MOVABLE => [],
+    'plugins' => [
+        ScheduleWidget::PLUGIN_MOVABLE => [],
         ScheduleWidget::PLUGIN_TABLE => [
             'headers' => [
                 'model.name' => 'Name'
             ]
-        ], ScheduleWidget::PLUGIN_TOOLTIP => []],
+        ], 
+        ScheduleWidget::PLUGIN_TOOLTIP => []
+    ],
+    'events' => [
+        ScheduleWidget::EVENT_ROW_CHANGE => new JsExpression('function(task){'
+                .'if(task.row.model.parent===\'Rent\') {'
+                .'task.$element.addClass(\'rented-row\');'
+                .'task.$element.removeClass(\'request-row\');'
+                .'} else {'
+                .'task.$element.removeClass(\'rented-row\');'
+                .'task.$element.addClass(\'request-row\');'
+                .'}'
+                .'}')
+    ],
     'data' => '[
         {"name":"Row №1","sortable":"false","tasks":[]},
         {"name":"Row №2","sortable":"false","tasks":[]},
@@ -49,6 +63,7 @@ echo ScheduleWidget::widget([
 - [Yii2](http://www.yiiframework.com/)
 - [angularjs](https://angularjs.org/)
 - [angular-ui-tree](http://angular-ui-tree.github.io/website/)
+- [moment-range](https://github.com/gf3/moment-range)
 - [jQuery](http://jquery.com/)
 
 ## The MIT License
