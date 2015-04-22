@@ -18,7 +18,7 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "bower-asset/angular": "1.3.*@stable",
+        "bower-asset/angular": "~1.4.0",
         "bower-asset/angular-ui-tree": "2.1.5",
         "bower-asset/jquery": "2.1.*@stable | 1.11.*@stable",
         "bower-asset/moment-range": "~1"
