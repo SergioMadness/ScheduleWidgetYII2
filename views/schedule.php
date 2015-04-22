@@ -6,8 +6,10 @@
 
 use yii\helpers\Html;
 use datalayerru\ScheduleWidget\assetbundles\WidgetAsset;
+use datalayerru\ScheduleWidget\assetbundles\MomentRangeAsset;
 
 WidgetAsset::register($this);
+MomentRangeAsset::register($this);
 ?>
 
 <?php if ($data != ''): ?>

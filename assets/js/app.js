@@ -1,5 +1,5 @@
 var scheduleWidget = angular.module('scheduleWidget', ['gantt', 'gantt.table', 'gantt.movable', 'gantt.tooltips', 'gantt.tree',
-    'gantt.groups']);
+    'gantt.groups', 'gantt.overlap']);
 
 scheduleWidget.controller('mainGantt', function ($scope) {
     $scope.data = [

@@ -37,6 +37,11 @@ class ScheduleWidget extends \yii\base\Widget
     const PLUGIN_TREE = 'PluginTree';
 
     /**
+     * Overlap plugin
+     */
+    const PLUGIN_OVERLAP = 'PluginOverlap';
+
+    /**
      * Widgets' data. Example:
      * {
      *    "name": "Sprint 2",
