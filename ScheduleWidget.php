@@ -42,6 +42,11 @@ class ScheduleWidget extends \yii\base\Widget
     const PLUGIN_OVERLAP = 'PluginOverlap';
 
     /**
+     * On row change event
+     */
+    const EVENT_ROW_CHANGE = 'tasks.on.rowChange';
+
+    /**
      * Widgets' data. Example:
      * {
      *    "name": "Sprint 2",
@@ -76,6 +81,13 @@ class ScheduleWidget extends \yii\base\Widget
     public $clientOptions = [];
 
     /**
+     * JS events
+     *
+     * @var array
+     */
+    public $events = [];
+
+    /**
      * Array of 'Row' objects
      *
      * @var array
@@ -86,13 +98,15 @@ class ScheduleWidget extends \yii\base\Widget
     {
         $this->clientOptions['gantt'] = true;
         $this->clientOptions['data']  = 'data';
+        $this->clientOptions['api']   = 'registerApi';
         if ($this->data == '') {
             $this->data = Json::encode($this->rows);
         }
         return $this->render('schedule',
                         ['plugins' => $this->renderPlugins(),
                     'clientOptions' => $this->clientOptions,
-                    'data' => $this->data]);
+                    'data' => $this->data,
+                    'events' => $this->renderEvents()]);
     }
 
     /**
@@ -107,6 +121,22 @@ class ScheduleWidget extends \yii\base\Widget
         foreach ($this->plugins as $key => $val) {
             $widgetClass = self::PLUGIN_PATH.'\\'.$key;
             $result.=$widgetClass::widget(['options' => $val]);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Prepares js events
+     *
+     * @return string
+     */
+    protected function renderEvents()
+    {
+        $result = '';
+
+        foreach ($this->events as $key => $val) {
+            $result.='events[\''.$key.'\']='.$val->__toString();
         }
 
         return $result;

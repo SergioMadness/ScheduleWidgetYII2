@@ -18,6 +18,13 @@ MomentRangeAsset::register($this);
     </script>
 <?php endif; ?>
 
+<?php if ($events != ''): ?>
+    <script>
+        var events = new Array();
+    <?= $events ?>
+    </script>
+<?php endif; ?>
+
 <div ng-app="scheduleWidget" ng-controller="mainGantt">
     <?= Html::beginTag('div', $clientOptions) ?>
     <?= $plugins ?>
