@@ -27,17 +27,38 @@ scheduleWidget.controller('mainGantt', function ($scope) {
     }
 
     $scope.registerApi = function (api) {
+        //tasks' events
+        api.tasks.on.add($scope, function (task) {
+            self.triggerEvent('tasks.on.add', task);
+        });
+        api.tasks.on.change($scope, function (task) {
+            self.triggerEvent('tasks.on.change', task);
+        });
+        api.tasks.on.remove($scope, function (task) {
+            self.triggerEvent('tasks.on.remove', task);
+        });
         api.tasks.on.rowChange($scope, function (task) {
             self.triggerEvent('tasks.on.rowChange', task);
         });
+        //core's events
+        api.core.on.ready($scope, function (api) {
+            self.triggerEvent('core.on.ready', api);
+        });
+        api.core.on.rendered($scope, function (api) {
+            self.triggerEvent('core.on.rendered', api);
+        });
+        //data's events
+        api.data.on.change($scope, function (newData, oldData) {
+            self.triggerEvent('data.on.change', newData, oldData);
+        });
     };
 
-    self.triggerEvent = function (eventName, param) {
+    self.triggerEvent = function (eventName, param, param2) {
         for (listener in self.listeners) {
             if (listener === eventName) {
                 if (self.listeners[listener].length > 0) {
                     for (var i = 0; i < self.listeners[listener].length; i++) {
-                        self.listeners[listener][i](param);
+                        self.listeners[listener][i](param, param2);
                     }
                 }
             }

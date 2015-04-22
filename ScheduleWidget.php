@@ -42,9 +42,39 @@ class ScheduleWidget extends \yii\base\Widget
     const PLUGIN_OVERLAP = 'PluginOverlap';
 
     /**
-     * On row change event
+     * On task's row change event
      */
-    const EVENT_ROW_CHANGE = 'tasks.on.rowChange';
+    const EVENT_TASK_ROW_CHANGE = 'tasks.on.rowChange';
+
+    /**
+     * On row has been added
+     */
+    const EVENT_TASK_ADD = 'tasks.on.add';
+
+    /**
+     * On task is changed
+     */
+    const EVENT_TASK_CHANGE = 'tasks.on.change';
+
+    /**
+     * On task is removed
+     */
+    const EVENT_TASK_REMOVE = 'tasks.on.remove';
+
+    /**
+     * On core is ready
+     */
+    const EVENT_CORE_READY = 'core.on.ready';
+
+    /**
+     * On JS plugin is rendered
+     */
+    const EVENT_CORE_RENDERED = 'core.on.rendered';
+
+    /**
+     * On data is changed
+     */
+    const EVENT_DATA_CHANGED = 'data.on.change';
 
     /**
      * Widgets' data. Example:
