@@ -77,6 +77,11 @@ class ScheduleWidget extends \yii\base\Widget
     const EVENT_TASK_MOVEEND = 'tasks.on.moveEnd';
 
     /**
+     * On task is resized
+     */
+    const EVENT_TASK_RESIZEEND = 'tasks.on.resizeEnd';
+
+    /**
      * On task is clicked
      */
     const EVENT_TASK_CLICK = 'dom.tasks.on.click';

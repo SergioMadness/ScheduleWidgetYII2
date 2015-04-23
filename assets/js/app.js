@@ -45,6 +45,9 @@ scheduleWidget.controller('mainGantt', function ($scope) {
             api.tasks.on.moveEnd($scope, function (task) {
                 self.triggerEvent('tasks.on.moveEnd', task);
             });
+            api.tasks.on.resizeEnd($scope, function (task) {
+                self.triggerEvent('tasks.on.resizeEnd', task);
+            });
             api.tasks.on.rowChange($scope, function (task) {
                 self.triggerEvent('tasks.on.rowChange', task);
             });
