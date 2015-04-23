@@ -37,6 +37,16 @@ class ScheduleWidget extends \yii\base\Widget
     const PLUGIN_TREE = 'PluginTree';
 
     /**
+     * Progress plugin
+     */
+    const PLUGIN_PROGRESS = 'PluginProgress';
+
+    /**
+     * Bounds plugin
+     */
+    const PLUGIN_BOUNDS = 'PluginBounds';
+
+    /**
      * Overlap plugin
      */
     const PLUGIN_OVERLAP = 'PluginOverlap';
