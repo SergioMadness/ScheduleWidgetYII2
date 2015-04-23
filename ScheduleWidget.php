@@ -72,6 +72,11 @@ class ScheduleWidget extends \yii\base\Widget
     const EVENT_TASK_REMOVE = 'tasks.on.remove';
 
     /**
+     * On task is moved
+     */
+    const EVENT_TASK_MOVEEND = 'tasks.on.moveEnd';
+
+    /**
      * On task is clicked
      */
     const EVENT_TASK_CLICK = 'dom.tasks.on.click';
