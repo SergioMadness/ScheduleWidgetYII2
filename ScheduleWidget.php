@@ -62,6 +62,16 @@ class ScheduleWidget extends \yii\base\Widget
     const EVENT_TASK_REMOVE = 'tasks.on.remove';
 
     /**
+     * On task is clicked
+     */
+    const EVENT_TASK_CLICK = 'dom.tasks.on.click';
+
+    /**
+     * On task is doubleclicked
+     */
+    const EVENT_TASK_DBLCLICK = 'dom.tasks.on.dblclick';
+
+    /**
      * On core is ready
      */
     const EVENT_CORE_READY = 'core.on.ready';
@@ -166,7 +176,7 @@ class ScheduleWidget extends \yii\base\Widget
         $result = '';
 
         foreach ($this->events as $key => $val) {
-            $result.='events[\''.$key.'\']='.$val->__toString();
+            $result.='events[\''.$key.'\']='.$val->__toString().';';
         }
 
         return $result;

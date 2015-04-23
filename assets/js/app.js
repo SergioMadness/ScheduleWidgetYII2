@@ -10,8 +10,10 @@ scheduleWidget.controller('mainGantt', function ($scope) {
         self.listeners[method].push(listener);
     };
 
-    for (event in events) {
-        self.addListener(event, events[event]);
+    if (events) {
+        for (event in events) {
+            self.addListener(event, events[event]);
+        }
     }
 
     $scope.data = [
@@ -22,7 +24,7 @@ scheduleWidget.controller('mainGantt', function ($scope) {
         }
     ];
 
-    if (ganttData != null) {
+    if (ganttData) {
         $scope.data = ganttData;
     }
 
@@ -50,6 +52,20 @@ scheduleWidget.controller('mainGantt', function ($scope) {
         //data's events
         api.data.on.change($scope, function (newData, oldData) {
             self.triggerEvent('data.on.change', newData, oldData);
+        });
+
+        //dom events
+        api.directives.on.new($scope, function (directiveName, directiveScope, element) {
+            if (directiveName === 'ganttTask') {
+                element.bind('click', function (event) {
+                    event.stopPropagation();
+                    self.triggerEvent('dom.tasks.on.click', directiveScope.task);
+                });
+                element.bind('dblclick', function (event) {
+                    event.stopPropagation();
+                    self.triggerEvent('dom.tasks.on.dblclick', directiveScope.task);
+                });
+            }
         });
     };
 

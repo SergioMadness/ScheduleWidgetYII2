@@ -1,6 +1,6 @@
 {
     "name": "datalayerru/schedule-widget-yii2",
-    "version": "0.2.1-beta",
+    "version": "0.3.1-beta",
     "description": "Wrapper for angular-gantt",
     "keywords": ["yii2", "angular-gantt", "Gantt diagramm"],
     "type": "yii2-extension",
