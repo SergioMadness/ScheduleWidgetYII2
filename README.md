@@ -105,6 +105,17 @@ foreach (Room::find()->all() as $room) {
 ]
 ```
 
+### Also included
+HTMLFilter for angular. 
+
+Example:
+```php
+ScheduleWidget::PLUGIN_TOOLTIP => [
+    'date-format'=>'\'DD.MM.YYYY\'',
+    'content' => '\'<div ng-bind-html="task.model.name | unsafe"></div>{{getFromLabel() +" - "+getToLabel()}}\''
+],
+```
+
 ## Dependencies
 - [Yii2](http://www.yiiframework.com/)
 - [angularjs](https://angularjs.org/)
