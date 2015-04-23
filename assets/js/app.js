@@ -1,5 +1,5 @@
 var scheduleWidget = angular.module('scheduleWidget', ['gantt', 'gantt.table', 'gantt.movable', 'gantt.tooltips', 'gantt.tree',
-    'gantt.groups', 'gantt.overlap']);
+    'gantt.groups', 'gantt.overlap', 'gantt.progress', 'gantt.bounds']);
 
 scheduleWidget.filter('unsafe', HTMLFilter);
 
