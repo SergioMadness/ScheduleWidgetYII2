@@ -5,17 +5,18 @@
 
 ScheduleWidgetYII2 is available through [composer](https://getcomposer.org/)
 
-  composer require datalayerru/schedule-widget-yii2 "dev-dev"
+  composer require datalayerru/schedule-widget-yii2 "dev-master"
   
 Alternatively you can add the following to the `require` section in your `composer.json` manually:
 
 ```json
-"datalayerru/schedule-widget-yii2": "dev-dev"
+"datalayerru/schedule-widget-yii2": "dev-master"
 ```
 
 Run `composer update` afterwards.
 
 ### In your PHP project
+### Data
 
 Example:
 
@@ -57,6 +58,51 @@ echo ScheduleWidget::widget([
         }
       ]'
 ]);
+```
+
+Or you can use wrappers for data preparation
+
+```php
+$result = [];
+
+$eventRow       = new Row();
+$eventRow->name = Yii::t('app', 'Rent');
+$result[]       = $eventRow;
+foreach (Room::find()->all() as $room) {
+    $rowRent         = new Row();
+    $rowRent->name   = $room->ROOM_NUMBER;
+    $rowRent->parent = $eventRow->name;
+    foreach (Event::find()->andWhere(['ROOM_ID' => $room->id)->all() as $event) {
+        $task          = new Task();
+        $task->name    = $event->CLIENT_NAME;
+        $task->from    = Yii::$app->formatter->asDate($event->START_DATE,
+                'Y-MM-dd');
+        $task->to      = Yii::$app->formatter->asDate($event->END_DATE,
+                'Y-MM-dd');
+        $task->classes = ['event-row'];
+
+        $rowRent->tasks[] = $task;
+    }
+
+    $result[] = $rowRent;
+}
+```
+
+### Events
+
+```php
+'events' => [
+    ScheduleWidget::EVENT_TASK_ROW_CHANGE => new JsExpression('function(task){'
+            .'if(task.row.model.parent===\'Rent\') {'
+            .'task.$element.addClass(\'event-row\');'
+            .'task.$element.removeClass(\'request-row\');'
+            .'} else {'
+            .'task.$element.removeClass(\'event-row\');'
+            .'task.$element.addClass(\'request-row\');'
+            .'}'
+            .'}'),
+    ScheduleWidget::EVENT_TASK_DBLCLICK => new JsExpression('function(task){console.log(task);}')
+]
 ```
 
 ## Dependencies
