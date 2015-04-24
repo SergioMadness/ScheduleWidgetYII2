@@ -37,6 +37,76 @@ class ScheduleWidget extends \yii\base\Widget
     const PLUGIN_TREE = 'PluginTree';
 
     /**
+     * Progress plugin
+     */
+    const PLUGIN_PROGRESS = 'PluginProgress';
+
+    /**
+     * Bounds plugin
+     */
+    const PLUGIN_BOUNDS = 'PluginBounds';
+
+    /**
+     * Overlap plugin
+     */
+    const PLUGIN_OVERLAP = 'PluginOverlap';
+
+    /**
+     * On task's row change event
+     */
+    const EVENT_TASK_ROW_CHANGE = 'tasks.on.rowChange';
+
+    /**
+     * On row has been added
+     */
+    const EVENT_TASK_ADD = 'tasks.on.add';
+
+    /**
+     * On task is changed
+     */
+    const EVENT_TASK_CHANGE = 'tasks.on.change';
+
+    /**
+     * On task is removed
+     */
+    const EVENT_TASK_REMOVE = 'tasks.on.remove';
+
+    /**
+     * On task is moved
+     */
+    const EVENT_TASK_MOVEEND = 'tasks.on.moveEnd';
+
+    /**
+     * On task is resized
+     */
+    const EVENT_TASK_RESIZEEND = 'tasks.on.resizeEnd';
+
+    /**
+     * On task is clicked
+     */
+    const EVENT_TASK_CLICK = 'dom.tasks.on.click';
+
+    /**
+     * On task is doubleclicked
+     */
+    const EVENT_TASK_DBLCLICK = 'dom.tasks.on.dblclick';
+
+    /**
+     * On core is ready
+     */
+    const EVENT_CORE_READY = 'core.on.ready';
+
+    /**
+     * On JS plugin is rendered
+     */
+    const EVENT_CORE_RENDERED = 'core.on.rendered';
+
+    /**
+     * On data is changed
+     */
+    const EVENT_DATA_CHANGED = 'data.on.change';
+
+    /**
      * Widgets' data. Example:
      * {
      *    "name": "Sprint 2",
@@ -71,6 +141,13 @@ class ScheduleWidget extends \yii\base\Widget
     public $clientOptions = [];
 
     /**
+     * JS events
+     *
+     * @var array
+     */
+    public $events = [];
+
+    /**
      * Array of 'Row' objects
      *
      * @var array
@@ -81,13 +158,15 @@ class ScheduleWidget extends \yii\base\Widget
     {
         $this->clientOptions['gantt'] = true;
         $this->clientOptions['data']  = 'data';
+        $this->clientOptions['api']   = 'registerApi';
         if ($this->data == '') {
             $this->data = Json::encode($this->rows);
         }
         return $this->render('schedule',
                         ['plugins' => $this->renderPlugins(),
                     'clientOptions' => $this->clientOptions,
-                    'data' => $this->data]);
+                    'data' => $this->data,
+                    'events' => $this->renderEvents()]);
     }
 
     /**
@@ -102,6 +181,22 @@ class ScheduleWidget extends \yii\base\Widget
         foreach ($this->plugins as $key => $val) {
             $widgetClass = self::PLUGIN_PATH.'\\'.$key;
             $result.=$widgetClass::widget(['options' => $val]);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Prepares js events
+     *
+     * @return string
+     */
+    protected function renderEvents()
+    {
+        $result = '';
+
+        foreach ($this->events as $key => $val) {
+            $result.='events[\''.$key.'\']='.$val->__toString().';';
         }
 
         return $result;

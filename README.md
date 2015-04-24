@@ -5,17 +5,18 @@
 
 ScheduleWidgetYII2 is available through [composer](https://getcomposer.org/)
 
-  composer require datalayerru/schedule-widget-yii2 "dev-dev"
+  composer require datalayerru/schedule-widget-yii2 "dev-master"
   
 Alternatively you can add the following to the `require` section in your `composer.json` manually:
 
 ```json
-"datalayerru/schedule-widget-yii2": "dev-dev"
+"datalayerru/schedule-widget-yii2": "dev-master"
 ```
 
 Run `composer update` afterwards.
 
 ### In your PHP project
+### Data
 
 Example:
 
@@ -28,12 +29,26 @@ echo ScheduleWidget::widget([
         'column-magnet' => 'column', 
         'time-frames-magnet' => false
     ],
-    'plugins' => [ScheduleWidget::PLUGIN_MOVABLE => [],
+    'plugins' => [
+        ScheduleWidget::PLUGIN_MOVABLE => [],
         ScheduleWidget::PLUGIN_TABLE => [
             'headers' => [
                 'model.name' => 'Name'
             ]
-        ], ScheduleWidget::PLUGIN_TOOLTIP => []],
+        ], 
+        ScheduleWidget::PLUGIN_TOOLTIP => []
+    ],
+    'events' => [
+        ScheduleWidget::EVENT_ROW_CHANGE => new JsExpression('function(task){'
+                .'if(task.row.model.parent===\'Rent\') {'
+                .'task.$element.addClass(\'rented-row\');'
+                .'task.$element.removeClass(\'request-row\');'
+                .'} else {'
+                .'task.$element.removeClass(\'rented-row\');'
+                .'task.$element.addClass(\'request-row\');'
+                .'}'
+                .'}')
+    ],
     'data' => '[
         {"name":"Row №1","sortable":"false","tasks":[]},
         {"name":"Row №2","sortable":"false","tasks":[]},
@@ -45,10 +60,67 @@ echo ScheduleWidget::widget([
 ]);
 ```
 
+Or you can use wrappers for data preparation
+
+```php
+$result = [];
+
+$eventRow       = new Row();
+$eventRow->name = Yii::t('app', 'Rent');
+$result[]       = $eventRow;
+foreach (Room::find()->all() as $room) {
+    $rowRent         = new Row();
+    $rowRent->name   = $room->ROOM_NUMBER;
+    $rowRent->parent = $eventRow->name;
+    foreach (Event::find()->andWhere(['ROOM_ID' => $room->id)->all() as $event) {
+        $task          = new Task();
+        $task->name    = $event->CLIENT_NAME;
+        $task->from    = Yii::$app->formatter->asDate($event->START_DATE,
+                'Y-MM-dd');
+        $task->to      = Yii::$app->formatter->asDate($event->END_DATE,
+                'Y-MM-dd');
+        $task->classes = ['event-row'];
+
+        $rowRent->tasks[] = $task;
+    }
+
+    $result[] = $rowRent;
+}
+```
+
+### Events
+
+```php
+'events' => [
+    ScheduleWidget::EVENT_TASK_ROW_CHANGE => new JsExpression('function(task){'
+            .'if(task.row.model.parent===\'Rent\') {'
+            .'task.$element.addClass(\'event-row\');'
+            .'task.$element.removeClass(\'request-row\');'
+            .'} else {'
+            .'task.$element.removeClass(\'event-row\');'
+            .'task.$element.addClass(\'request-row\');'
+            .'}'
+            .'}'),
+    ScheduleWidget::EVENT_TASK_DBLCLICK => new JsExpression('function(task){console.log(task);}')
+]
+```
+
+### Also included
+HTMLFilter for angular. 
+
+Example:
+```php
+ScheduleWidget::PLUGIN_TOOLTIP => [
+    'date-format'=>'\'DD.MM.YYYY\'',
+    'content' => '\'<div ng-bind-html="task.model.name | unsafe"></div>{{getFromLabel() +" - "+getToLabel()}}\''
+],
+```
+
 ## Dependencies
 - [Yii2](http://www.yiiframework.com/)
 - [angularjs](https://angularjs.org/)
 - [angular-ui-tree](http://angular-ui-tree.github.io/website/)
+- [moment-range](https://github.com/gf3/moment-range)
 - [jQuery](http://jquery.com/)
 
 ## The MIT License

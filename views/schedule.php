@@ -6,13 +6,22 @@
 
 use yii\helpers\Html;
 use datalayerru\ScheduleWidget\assetbundles\WidgetAsset;
+use datalayerru\ScheduleWidget\assetbundles\MomentRangeAsset;
 
 WidgetAsset::register($this);
+MomentRangeAsset::register($this);
 ?>
 
 <?php if ($data != ''): ?>
     <script>
         var ganttData =<?= $data ?>;
+    </script>
+<?php endif; ?>
+
+<?php if ($events != ''): ?>
+    <script>
+        var events = new Array();
+    <?= $events ?>
     </script>
 <?php endif; ?>
 

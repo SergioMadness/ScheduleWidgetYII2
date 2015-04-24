@@ -791,24 +791,24 @@ Github: https://github.com/angular-gantt/angular-gantt.git
                     // set overlaps flag to each task that overlaps other task.
                     angular.forEach(allTasks,function(currentTask){
                         var currentStart,currentEnd;
-                        if (currentTask.model.from.isBefore(currentTask.to)){
+//                        if (currentTask.model.from.isBefore(currentTask.to)){
                             currentStart = currentTask.model.from;
                             currentEnd = currentTask.model.to;
-                        } else {
-                            currentStart = currentTask.model.to;
-                            currentEnd = currentTask.model.from;
-                        }
+//                        } else {
+//                            currentStart = currentTask.model.to;
+//                            currentEnd = currentTask.model.from;
+//                        }
                         var currentRange = moment().range(currentStart, currentEnd);
                         angular.forEach(allTasks,function(task){
                             if (currentTask.model.id !== task.model.id){
                                 var start,end;
-                                if (task.model.from.isBefore(task.model.to)){
+//                                if (task.model.from.isBefore(task.model.to)){
                                     start = task.model.from;
                                     end = task.model.to;
-                                } else {
-                                    start = task.model.to;
-                                    end = task.model.from;
-                                }
+//                                } else {
+//                                    start = task.model.to;
+//                                    end = task.model.from;
+//                                }
                                 var range = moment().range(start, end);
                                 if (range.overlaps(currentRange)){
                                     if (!overlapsTasks.hasOwnProperty(task.model.id)) {

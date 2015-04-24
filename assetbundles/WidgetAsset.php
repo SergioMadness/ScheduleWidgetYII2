@@ -16,6 +16,7 @@ class WidgetAsset extends AssetBundle
         'js/angular-moment/angular-moment.min.js',
         'js/angular-gantt/dist/angular-gantt.min.js',
         'js/angular-gantt/dist/angular-gantt-plugins.min.js',
+        'js/HTMLFilter.js',
         'js/app.js'
     ];
 
