@@ -13,8 +13,8 @@ scheduleWidget.controller('mainGantt', function ($scope) {
     };
 
     if (events) {
-        for (event in events) {
-            self.addListener(event, events[event]);
+        for (eventitem in events) {
+            self.addListener(eventitem, events[eventitem]);
         }
     }
 
