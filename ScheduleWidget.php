@@ -107,6 +107,16 @@ class ScheduleWidget extends \yii\base\Widget
     const EVENT_DATA_CHANGED = 'data.on.change';
 
     /**
+     * On row is clicked
+     */
+    const EVENT_ROW_CLICK = 'dom.row.on.click';
+
+    /**
+     * On row's label is clicked
+     */
+    const EVENT_ROW_LABEL_CLICK = 'dom.row.on.labelclick';
+
+    /**
      * Widgets' data. Example:
      * {
      *    "name": "Sprint 2",

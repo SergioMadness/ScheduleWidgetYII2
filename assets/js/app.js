@@ -75,6 +75,17 @@ scheduleWidget.controller('mainGantt', function ($scope) {
                         self.triggerEvent('dom.tasks.on.dblclick', directiveScope.task);
                     });
                 }
+                if (directiveName === 'ganttRow') {
+                    element.bind('click', function (event) {
+                        event.stopPropagation();
+                        self.triggerEvent('dom.row.on.click', directiveScope.row);
+                    });
+                }
+                if (directiveName === 'ganttRowLabel') {
+                    element.bind('click', function () {
+                        self.triggerEvent('dom.row.on.labelclick', directiveScope.row);
+                    });
+                }
             });
         });
     };
