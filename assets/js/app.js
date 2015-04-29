@@ -26,9 +26,7 @@ scheduleWidget.controller('mainGantt', function ($scope) {
         }
     ];
 
-    if (ganttData) {
-        $scope.data = ganttData;
-    }
+    
 
     $scope.registerApi = function (api) {
         api.core.on.ready($scope, function () {
@@ -68,14 +66,33 @@ scheduleWidget.controller('mainGantt', function ($scope) {
                 if (directiveName === 'ganttTask') {
                     element.bind('click', function (event) {
                         event.stopPropagation();
+                        console.log('dom.tasks.on.click');
                         self.triggerEvent('dom.tasks.on.click', directiveScope.task);
                     });
                     element.bind('dblclick', function (event) {
                         event.stopPropagation();
+                        console.log('dom.tasks.on.dblclick');
                         self.triggerEvent('dom.tasks.on.dblclick', directiveScope.task);
                     });
                 }
+                if (directiveName === 'ganttRow') {
+                    element.bind('click', function (event) {
+                        event.stopPropagation();
+                        console.log('dom.row.on.click');
+                        self.triggerEvent('dom.row.on.click', directiveScope.row);
+                    });
+                }
+                if (directiveName === 'ganttRowLabel') {
+                    element.bind('click', function () {
+                        console.log('dom.row.on.labelclick');
+                        self.triggerEvent('dom.row.on.labelclick', directiveScope.row);
+                    });
+                }
             });
+            
+            if (ganttData) {
+                $scope.data = ganttData;
+            }
         });
     };
 
