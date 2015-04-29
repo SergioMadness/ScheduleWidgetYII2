@@ -25,6 +25,18 @@ MomentRangeAsset::register($this);
     </script>
 <?php endif; ?>
 
+<?php if ($timeFrames != ''): ?>
+    <script>
+        var timeFrames =<?= $timeFrames ?>;
+    </script>
+<?php endif; ?>
+
+<?php if ($dateFrames != ''): ?>
+    <script>
+        var dateFrames =<?= $dateFrames ?>;
+    </script>
+<?php endif; ?>
+
 <div ng-app="scheduleWidget" ng-controller="mainGantt">
     <?= Html::beginTag('div', $clientOptions) ?>
     <?= $plugins ?>

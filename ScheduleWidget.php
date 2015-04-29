@@ -158,6 +158,20 @@ class ScheduleWidget extends \yii\base\Widget
     public $events = [];
 
     /**
+     * Date frames
+     *
+     * @var array 
+     */
+    public $dateFrames = [];
+
+    /**
+     * Time frames
+     *
+     * @var array
+     */
+    public $timeFrames = [];
+
+    /**
      * Array of 'Row' objects
      *
      * @var array
@@ -166,9 +180,11 @@ class ScheduleWidget extends \yii\base\Widget
 
     public function run()
     {
-        $this->clientOptions['gantt'] = true;
-        $this->clientOptions['data']  = 'data';
-        $this->clientOptions['api']   = 'registerApi';
+        $this->clientOptions['gantt']       = true;
+        $this->clientOptions['data']        = 'data';
+        $this->clientOptions['api']         = 'registerApi';
+        $this->clientOptions['date-frames'] = 'dateFrames';
+        $this->clientOptions['time-frames'] = 'timeFrames';
         if ($this->data == '') {
             $this->data = Json::encode($this->rows);
         }
@@ -176,7 +192,9 @@ class ScheduleWidget extends \yii\base\Widget
                         ['plugins' => $this->renderPlugins(),
                     'clientOptions' => $this->clientOptions,
                     'data' => $this->data,
-                    'events' => $this->renderEvents()]);
+                    'events' => $this->renderEvents(),
+                    'dateFrames' => Json::encode($this->dateFrames),
+                    'timeFrames' => Json::encode($this->timeFrames)]);
     }
 
     /**
