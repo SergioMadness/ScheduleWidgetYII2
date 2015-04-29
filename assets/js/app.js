@@ -13,8 +13,8 @@ scheduleWidget.controller('mainGantt', function ($scope) {
     };
 
     if (events) {
-        for (event in events) {
-            self.addListener(event, events[event]);
+        for (eventitem in events) {
+            self.addListener(eventitem, events[eventitem]);
         }
     }
 
@@ -26,8 +26,27 @@ scheduleWidget.controller('mainGantt', function ($scope) {
         }
     ];
 
-    if (ganttData) {
-        $scope.data = ganttData;
+    $scope.timeFrames = {};
+
+    $scope.dateFrames = {};
+
+    if (timeFrames) {
+        $scope.timeFrames = timeFrames;
+    }
+
+    if (dateFrames) {
+        for (var dateFrame in dateFrames) {
+            if (dateFrames[dateFrame].start) {
+                dateFrames[dateFrame].start = moment(dateFrames[dateFrame].start, "YYYY MM DD");
+            }
+            if (dateFrames[dateFrame].end) {
+                dateFrames[dateFrame].end = moment(dateFrames[dateFrame].end, "YYYY MM DD");
+            }
+            if (dateFrames[dateFrame].date) {
+                dateFrames[dateFrame].date = moment(dateFrames[dateFrame].date, "YYYY MM DD");
+            }
+        }
+        $scope.dateFrames = dateFrames;
     }
 
     $scope.registerApi = function (api) {
@@ -68,14 +87,33 @@ scheduleWidget.controller('mainGantt', function ($scope) {
                 if (directiveName === 'ganttTask') {
                     element.bind('click', function (event) {
                         event.stopPropagation();
+                        console.log('dom.tasks.on.click');
                         self.triggerEvent('dom.tasks.on.click', directiveScope.task);
                     });
                     element.bind('dblclick', function (event) {
                         event.stopPropagation();
+                        console.log('dom.tasks.on.dblclick');
                         self.triggerEvent('dom.tasks.on.dblclick', directiveScope.task);
                     });
                 }
+                if (directiveName === 'ganttRow') {
+                    element.bind('click', function (event) {
+                        event.stopPropagation();
+                        console.log('dom.row.on.click');
+                        self.triggerEvent('dom.row.on.click', directiveScope.row);
+                    });
+                }
+                if (directiveName === 'ganttRowLabel') {
+                    element.bind('click', function () {
+                        console.log('dom.row.on.labelclick');
+                        self.triggerEvent('dom.row.on.labelclick', directiveScope.row);
+                    });
+                }
             });
+
+            if (ganttData) {
+                $scope.data = ganttData;
+            }
         });
     };
 
