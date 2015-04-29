@@ -26,7 +26,28 @@ scheduleWidget.controller('mainGantt', function ($scope) {
         }
     ];
 
-    
+    $scope.timeFrames = {};
+
+    $scope.dateFrames = {};
+
+    if (timeFrames) {
+        $scope.timeFrames = timeFrames;
+    }
+
+    if (dateFrames) {
+        for (var dateFrame in dateFrames) {
+            if (dateFrames[dateFrame].start) {
+                dateFrames[dateFrame].start = moment(dateFrames[dateFrame].start, "YYYY MM DD");
+            }
+            if (dateFrames[dateFrame].end) {
+                dateFrames[dateFrame].end = moment(dateFrames[dateFrame].end, "YYYY MM DD");
+            }
+            if (dateFrames[dateFrame].date) {
+                dateFrames[dateFrame].date = moment(dateFrames[dateFrame].date, "YYYY MM DD");
+            }
+        }
+        $scope.dateFrames = dateFrames;
+    }
 
     $scope.registerApi = function (api) {
         api.core.on.ready($scope, function () {
@@ -89,7 +110,7 @@ scheduleWidget.controller('mainGantt', function ($scope) {
                     });
                 }
             });
-            
+
             if (ganttData) {
                 $scope.data = ganttData;
             }
