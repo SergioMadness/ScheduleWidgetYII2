@@ -19,10 +19,10 @@ class WidgetAsset extends AssetBundle
         'js/HTMLFilter.js',
         'js/app.js'
     ];
-
-    public $depends  = [
+    public $depends = [
         'datalayerru\ScheduleWidget\assetbundles\AngularAsset',
-        'datalayerru\ScheduleWidget\assetbundles\UITreeAsset'
+        'datalayerru\ScheduleWidget\assetbundles\UITreeAsset',
+        'datalayerru\ScheduleWidget\assetbundles\CssElementQueriesAsset'
     ];
 
 }
