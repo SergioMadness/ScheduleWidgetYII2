@@ -52,6 +52,11 @@ class ScheduleWidget extends \yii\base\Widget
     const PLUGIN_OVERLAP = 'PluginOverlap';
 
     /**
+     * ResizeSensor plugin
+     */
+    const PLUGIN_RESIZE_SENSOR = 'PluginResizeSensor';
+
+    /**
      * On task's row change event
      */
     const EVENT_TASK_ROW_CHANGE = 'tasks.on.rowChange';
