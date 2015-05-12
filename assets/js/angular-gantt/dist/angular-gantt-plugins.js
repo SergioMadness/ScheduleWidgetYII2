@@ -369,7 +369,7 @@ Github: https://github.com/angular-gantt/angular-gantt.git
                                 var enabledValue = utils.firstProperty([taskMovable, rowMovable], 'enabled', scope.enabled);
                                 var enabled = angular.isFunction(enabledValue) ? enabledValue(evt): enabledValue;
                                 if (enabled) {
-                                    var taskOffsetX = mouseOffset.getOffset(evt).x;
+                                    var taskOffsetX = mouseOffset.getOffsetForElement(foregroundElement[0], evt).x;
                                     var mode = getMoveMode(taskOffsetX);
                                     if (mode !== '' && mouseButton.getButton(evt) === 1) {
                                         var bodyOffsetX = mouseOffset.getOffsetForElement(ganttBodyElement[0], evt).x;
@@ -396,7 +396,7 @@ Github: https://github.com/angular-gantt/angular-gantt.git
                                 var enabledValue = utils.firstProperty([taskMovable, rowMovable], 'enabled', scope.enabled);
                                 var enabled = angular.isFunction(enabledValue) ? enabledValue(evt): enabledValue;
                                 if (enabled && !taskScope.task.isMoving) {
-                                    var taskOffsetX = mouseOffset.getOffset(evt).x;
+                                    var taskOffsetX = mouseOffset.getOffsetForElement(foregroundElement[0], evt).x;
                                     var mode = getMoveMode(taskOffsetX);
                                     if (mode !== '' && mode !== 'M') {
                                         foregroundElement.css('cursor', getCursor(mode));
@@ -751,94 +751,110 @@ Github: https://github.com/angular-gantt/angular-gantt.git
 }());
 
 
-(function(){
+(function () {
     'use strict';
-    angular.module('gantt.overlap', ['gantt', 'gantt.overlap.templates']).directive('ganttOverlap', ['moment',function(moment) {
-        return {
-            restrict: 'E',
-            require: '^gantt',
-            scope: {
-                enabled: '=?'
-                // Add other option attributes for this plugin
-            },
-            link: function(scope, element, attrs, ganttCtrl) {
-                var api = ganttCtrl.gantt.api;
+    angular.module('gantt.overlap', ['gantt', 'gantt.overlap.templates']).directive('ganttOverlap', ['moment', function (moment) {
+            return {
+                restrict: 'E',
+                require: '^gantt',
+                scope: {
+                    enabled: '=?',
+                    // Add other option attributes for this plugin
+                    checkOnRender: '=?'
+                },
+                link: function (scope, element, attrs, ganttCtrl) {
+                    var api = ganttCtrl.gantt.api;
 
-                if (scope.enabled === undefined) {
-                    scope.enabled = true;
-                }
+                    if (scope.enabled === undefined) {
+                        scope.enabled = true;
+                    }
+                    if (scope.checkOnRender === undefined) {
+                        scope.checkOnRender = false;
+                    }
 
-                if (scope.enabled){
-                    api.tasks.on.change(scope, function (task) {
-                        // on every task change check for overlaps
-                        scope.handleOverlaps(task);
-                    });
-                }
+                    if (scope.enabled) {
+                        api.tasks.on.change(scope, function (task) {
+                            // on every task change check for overlaps
+                            scope.handleOverlaps(task);
+                        });
 
-                var overlapsTasks = {};
-
-                scope.handleOverlaps = function (changedTask) {
-                    // Get all the tasks in the row.
-                    var allTasks = changedTask.row.tasks;
-
-                    var newOverlapsTasks = {};
-                    var removedOverlapsTasks = {};
-
-                    angular.forEach(allTasks, function(task) {
-                        removedOverlapsTasks[task.model.id] = task;
-                    });
-
-                    // set overlaps flag to each task that overlaps other task.
-                    angular.forEach(allTasks,function(currentTask){
-                        var currentStart,currentEnd;
-//                        if (currentTask.model.from.isBefore(currentTask.to)){
-                            currentStart = currentTask.model.from;
-                            currentEnd = currentTask.model.to;
-//                        } else {
-//                            currentStart = currentTask.model.to;
-//                            currentEnd = currentTask.model.from;
-//                        }
-                        var currentRange = moment().range(currentStart, currentEnd);
-                        angular.forEach(allTasks,function(task){
-                            if (currentTask.model.id !== task.model.id){
-                                var start,end;
-//                                if (task.model.from.isBefore(task.model.to)){
-                                    start = task.model.from;
-                                    end = task.model.to;
-//                                } else {
-//                                    start = task.model.to;
-//                                    end = task.model.from;
-//                                }
-                                var range = moment().range(start, end);
-                                if (range.overlaps(currentRange)){
-                                    if (!overlapsTasks.hasOwnProperty(task.model.id)) {
-                                        newOverlapsTasks[task.model.id] = task;
+                        api.core.on.rendered(scope, function () {
+                            if (scope.checkOnRender) {
+                                for (var row in api.gantt.rowsManager.rowsMap) {
+                                    for (var task in api.gantt.rowsManager.rowsMap[row].tasksMap) {
+                                        if (api.gantt.rowsManager.rowsMap[row].tasksMap[task].$element) {
+                                            api.gantt.api.tasks.raise.change(api.gantt.rowsManager.rowsMap[row].tasksMap[task]);
+                                        }
                                     }
-                                    delete removedOverlapsTasks[task.model.id];
-                                    if (!overlapsTasks.hasOwnProperty(currentTask.model.id)) {
-                                        newOverlapsTasks[currentTask.model.id] = currentTask;
-                                    }
-                                    delete removedOverlapsTasks[currentTask.model.id];
                                 }
                             }
                         });
-                    });
+                    }
 
-                    angular.forEach(removedOverlapsTasks, function(task) {
-                        task.$element.removeClass('gantt-task-overlaps');
-                        delete overlapsTasks[task.model.id];
-                    });
+                    var overlapsTasks = {};
 
-                    angular.forEach(newOverlapsTasks, function(task) {
-                        task.$element.addClass('gantt-task-overlaps');
-                        overlapsTasks[task.model.id] = task;
-                    });
+                    scope.handleOverlaps = function (changedTask) {
+                        // Get all the tasks in the row.
+                        var allTasks = changedTask.row.tasks;
 
-                    overlapsTasks = newOverlapsTasks;
-                };
-            }
-        };
-    }]);
+                        var newOverlapsTasks = {};
+                        var removedOverlapsTasks = {};
+
+                        angular.forEach(allTasks, function (task) {
+                            removedOverlapsTasks[task.model.id] = task;
+                        });
+
+                        // set overlaps flag to each task that overlaps other task.
+                        angular.forEach(allTasks, function (currentTask) {
+                            var currentStart, currentEnd;
+                            if (currentTask.model.from.isBefore(currentTask.to)) {
+                                currentStart = currentTask.model.from;
+                                currentEnd = currentTask.model.to;
+                            } else {
+                                currentStart = currentTask.model.to;
+                                currentEnd = currentTask.model.from;
+                            }
+                            var currentRange = moment().range(currentStart, currentEnd);
+                            angular.forEach(allTasks, function (task) {
+                                if (currentTask.model.id !== task.model.id) {
+                                    var start, end;
+                                    if (task.model.from.isBefore(task.model.to)) {
+                                        start = task.model.from;
+                                        end = task.model.to;
+                                    } else {
+                                        start = task.model.to;
+                                        end = task.model.from;
+                                    }
+                                    var range = moment().range(start, end);
+                                    if (range.overlaps(currentRange)) {
+                                        if (!overlapsTasks.hasOwnProperty(task.model.id)) {
+                                            newOverlapsTasks[task.model.id] = task;
+                                        }
+                                        delete removedOverlapsTasks[task.model.id];
+                                        if (!overlapsTasks.hasOwnProperty(currentTask.model.id)) {
+                                            newOverlapsTasks[currentTask.model.id] = currentTask;
+                                        }
+                                        delete removedOverlapsTasks[currentTask.model.id];
+                                    }
+                                }
+                            });
+                        });
+
+                        angular.forEach(removedOverlapsTasks, function (task) {
+                            task.$element.removeClass('gantt-task-overlaps');
+                            delete overlapsTasks[task.model.id];
+                        });
+
+                        angular.forEach(newOverlapsTasks, function (task) {
+                            task.$element.addClass('gantt-task-overlaps');
+                            overlapsTasks[task.model.id] = task;
+                        });
+
+                        overlapsTasks = newOverlapsTasks;
+                    };
+                }
+            };
+        }]);
 }());
 
 
@@ -1437,8 +1453,8 @@ Github: https://github.com/angular-gantt/angular-gantt.git
 
             self.tasks = [];
             self.overviewTasks = [];
-            self.groupedTasks = [];
             self.promotedTasks = [];
+            self.showGrouping = false;
 
             var groupRowGroups = self.row.model.groups;
             if (typeof(groupRowGroups) === 'boolean') {
@@ -1466,42 +1482,40 @@ Github: https://github.com/angular-gantt/angular-gantt.git
 
             angular.forEach(self.descendants, function(descendant) {
                 angular.forEach(descendant.tasks, function(task) {
-                    if (getTaskDisplay(task) !== undefined) {
-                        self.tasks.push(task);
-                    }
-
                     var taskDisplay = getTaskDisplay(task);
                     if (taskDisplay !== undefined) {
+                        self.tasks.push(task);
                         var clone = new Task(self.row, task.model);
 
                         if (taskDisplay === 'overview') {
                             self.overviewTasks.push(clone);
-                            clone.updatePosAndSize();
                         } else if(taskDisplay === 'promote'){
                             self.promotedTasks.push(clone);
                         } else {
-                            self.groupedTasks.push(clone);
+                            self.showGrouping = true;
                         }
                     }
                 });
             });
 
             self.from = undefined;
-            angular.forEach(self.tasks, function(task) {
+            angular.forEach(self.tasks, function (task) {
                 if (self.from === undefined || task.model.from < self.from) {
-                    self.from =  task.model.from;
+                    self.from = task.model.from;
                 }
             });
 
             self.to = undefined;
-            angular.forEach(self.tasks, function(task) {
+            angular.forEach(self.tasks, function (task) {
                 if (self.to === undefined || task.model.to > self.to) {
                     self.to = task.model.to;
                 }
             });
 
-            self.left = row.rowsManager.gantt.getPositionByDate(self.from);
-            self.width = row.rowsManager.gantt.getPositionByDate(self.to) - self.left;
+            if (self.showGrouping) {
+                self.left = row.rowsManager.gantt.getPositionByDate(self.from);
+                self.width = row.rowsManager.gantt.getPositionByDate(self.to) - self.left;
+            }
         };
         return TaskGroup;
     }]);
@@ -1509,19 +1523,12 @@ Github: https://github.com/angular-gantt/angular-gantt.git
 
 (function(){
     'use strict';
-    angular.module('gantt').directive('ganttTaskOverview', ['GanttDirectiveBuilder', 'moment', function(Builder, moment) {
+    angular.module('gantt').directive('ganttTaskOverview', ['GanttDirectiveBuilder', function(Builder) {
         var builder = new Builder('ganttTaskOverview', 'plugins/groups/taskOverview.tmpl.html');
         builder.controller = function($scope, $element) {
             $scope.task.$element = $element;
             $scope.task.$scope = $scope;
-
-            $scope.simplifyMoment = function(d) {
-                return moment.isMoment(d) ? d.unix() : d;
-            };
-
-            $scope.$watchGroup(['simplifyMoment(task.model.from)', 'simplifyMoment(task.model.to)'], function() {
-                $scope.task.updatePosAndSize();
-            });
+            $scope.task.updatePosAndSize();
         };
         return builder.build();
     }]);
@@ -1750,7 +1757,7 @@ Github: https://github.com/angular-gantt/angular-gantt.git
 
 (function() {
     'use strict';
-    angular.module('gantt.tooltips').directive('ganttTooltip', ['$timeout', '$compile', '$document', '$templateCache', 'ganttDebounce', 'ganttSmartEvent', function($timeout, $compile, $document, $templateCache, debounce, smartEvent) {
+    angular.module('gantt.tooltips').directive('ganttTooltip', ['$log','$timeout', '$compile', '$document', '$templateCache', 'ganttDebounce', 'ganttSmartEvent', function($log, $timeout, $compile, $document, $templateCache, debounce, smartEvent) {
         // This tooltip displays more information about a task
 
         return {
@@ -1815,6 +1822,7 @@ Github: https://github.com/angular-gantt/angular-gantt.git
                     } else {
                         // check if mouse goes outside the parent
                         if(
+                            !$scope.taskRect ||
                             e.clientX < $scope.taskRect.left ||
                             e.clientX > $scope.taskRect.right ||
                             e.clientY > $scope.taskRect.bottom ||
@@ -1822,6 +1830,7 @@ Github: https://github.com/angular-gantt/angular-gantt.git
                         ) {
                             displayTooltip(false, false);
                         }
+
                         updateTooltip(e.clientX);
                     }
                 }, 5, false));
@@ -1883,7 +1892,7 @@ Github: https://github.com/angular-gantt/angular-gantt.git
                     }
 
                     var enabled = utils.firstProperty([taskTooltips, rowTooltips], 'enabled', $scope.pluginScope.enabled);
-                    if (enabled && !visible && newValue) {
+                    if (enabled && !visible && mouseEnterX !== undefined && newValue) {
                         if (showDelayed) {
                             showTooltipPromise = $timeout(function() {
                                 showTooltip(mouseEnterX);
@@ -2305,14 +2314,14 @@ angular.module('gantt.drawtask.templates', []).run(['$templateCache', function($
 angular.module('gantt.groups.templates', []).run(['$templateCache', function($templateCache) {
     $templateCache.put('plugins/groups/taskGroup.tmpl.html',
         '<div ng-controller="GanttGroupController">\n' +
-        '    <div class="gantt-task-group-overview" ng-show="taskGroup.overviewTasks.length > 0">\n' +
+        '    <div class="gantt-task-group-overview" ng-if="taskGroup.overviewTasks.length > 0">\n' +
         '        <gantt-task-overview ng-repeat="task in taskGroup.overviewTasks"></gantt-task-overview>\n' +
         '    </div>\n' +
-        '    <div class="gantt-task-group-promote" ng-show="taskGroup.row._collapsed && taskGroup.promotedTasks.length > 0">\n' +
+        '    <div class="gantt-task-group-promote" ng-if="taskGroup.row._collapsed && taskGroup.promotedTasks.length > 0">\n' +
         '        <gantt-task ng-repeat="task in taskGroup.promotedTasks"></gantt-task>\n' +
         '    </div>\n' +
         '    <div class="gantt-task-group"\n' +
-        '         ng-show="taskGroup.groupedTasks.length > 0"\n' +
+        '         ng-if="taskGroup.showGrouping"\n' +
         '         ng-style="{\'left\': taskGroup.left + \'px\', \'width\': taskGroup.width + \'px\'}">\n' +
         '        <div class="gantt-task-group-left-main"></div>\n' +
         '        <div class="gantt-task-group-right-main"></div>\n' +

@@ -69,7 +69,7 @@ Github: https://github.com/angular-gantt/angular-gantt.git
 
 (function() {
     'use strict';
-    angular.module('gantt.tooltips').directive('ganttTooltip', ['$timeout', '$compile', '$document', '$templateCache', 'ganttDebounce', 'ganttSmartEvent', function($timeout, $compile, $document, $templateCache, debounce, smartEvent) {
+    angular.module('gantt.tooltips').directive('ganttTooltip', ['$log','$timeout', '$compile', '$document', '$templateCache', 'ganttDebounce', 'ganttSmartEvent', function($log, $timeout, $compile, $document, $templateCache, debounce, smartEvent) {
         // This tooltip displays more information about a task
 
         return {
@@ -134,6 +134,7 @@ Github: https://github.com/angular-gantt/angular-gantt.git
                     } else {
                         // check if mouse goes outside the parent
                         if(
+                            !$scope.taskRect ||
                             e.clientX < $scope.taskRect.left ||
                             e.clientX > $scope.taskRect.right ||
                             e.clientY > $scope.taskRect.bottom ||
@@ -141,6 +142,7 @@ Github: https://github.com/angular-gantt/angular-gantt.git
                         ) {
                             displayTooltip(false, false);
                         }
+
                         updateTooltip(e.clientX);
                     }
                 }, 5, false));
@@ -202,7 +204,7 @@ Github: https://github.com/angular-gantt/angular-gantt.git
                     }
 
                     var enabled = utils.firstProperty([taskTooltips, rowTooltips], 'enabled', $scope.pluginScope.enabled);
-                    if (enabled && !visible && newValue) {
+                    if (enabled && !visible && mouseEnterX !== undefined && newValue) {
                         if (showDelayed) {
                             showTooltipPromise = $timeout(function() {
                                 showTooltip(mouseEnterX);
