@@ -4,7 +4,8 @@
   "description": "Gantt chart component for AngularJS",
   "author": "Marco Schweighauser",
   "contributors": [
-    "Rémi Alvergnat"
+    "Rémi Alvergnat",
+    "Sergey Zinchenko"
   ],
   "license": "MIT",
   "repository": {
