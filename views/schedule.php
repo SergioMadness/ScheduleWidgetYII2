@@ -5,8 +5,8 @@
 /* @var $data string */
 
 use yii\helpers\Html;
-use datalayerru\ScheduleWidget\assetbundles\WidgetAsset;
-use datalayerru\ScheduleWidget\assetbundles\MomentRangeAsset;
+use professionalweb\ScheduleWidget\assetbundles\WidgetAsset;
+use professionalweb\ScheduleWidget\assetbundles\MomentRangeAsset;
 
 WidgetAsset::register($this);
 MomentRangeAsset::register($this);

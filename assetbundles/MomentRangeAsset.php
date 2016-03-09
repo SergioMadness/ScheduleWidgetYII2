@@ -1,6 +1,6 @@
 <?php
 
-namespace datalayerru\ScheduleWidget\assetbundles;
+namespace professionalweb\ScheduleWidget\assetbundles;
 
 use yii\web\AssetBundle;
 
@@ -11,7 +11,7 @@ class MomentRangeAsset extends AssetBundle
         'moment-range.min.js',
     ];
     public $depends = [
-        'datalayerru\ScheduleWidget\assetbundles\WidgetAsset'
+        'professionalweb\ScheduleWidget\assetbundles\WidgetAsset'
     ];
 
 }
