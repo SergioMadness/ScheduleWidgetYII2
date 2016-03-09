@@ -1,6 +1,6 @@
 <?php
 
-namespace datalayerru\ScheduleWidget\wrappers;
+namespace professionalweb\ScheduleWidget\wrappers;
 
 class Row
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace datalayerru\ScheduleWidget\assetbundles;
+namespace professionalweb\ScheduleWidget\assetbundles;
 
 use yii\web\AssetBundle;
 
 class WidgetAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/datalayerru/schedule-widget-yii2/assets';
+    public $sourcePath = '@vendor/professionalweb/schedule-widget-yii2/assets';
     public $css        = [
         'css/angular-gantt.min.css',
         'css/angular-gantt-plugins.css'
@@ -20,9 +20,9 @@ class WidgetAsset extends AssetBundle
         'js/app.js'
     ];
     public $depends = [
-        'datalayerru\ScheduleWidget\assetbundles\AngularAsset',
-        'datalayerru\ScheduleWidget\assetbundles\UITreeAsset',
-        'datalayerru\ScheduleWidget\assetbundles\CssElementQueriesAsset'
+        'professionalweb\ScheduleWidget\assetbundles\AngularAsset',
+        'professionalweb\ScheduleWidget\assetbundles\UITreeAsset',
+        'professionalweb\ScheduleWidget\assetbundles\CssElementQueriesAsset'
     ];
 
 }

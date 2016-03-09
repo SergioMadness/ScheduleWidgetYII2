@@ -1,6 +1,6 @@
 <?php
 
-namespace datalayerru\ScheduleWidget\assetbundles;
+namespace professionalweb\ScheduleWidget\assetbundles;
 
 use yii\web\AssetBundle;
 

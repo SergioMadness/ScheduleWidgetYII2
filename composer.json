@@ -1,19 +1,19 @@
 {
-    "name": "datalayerru/schedule-widget-yii2",
-    "version": "0.5.3",
+    "name": "professionalweb/schedule-widget-yii2",
+    "version": "0.5.4",
     "description": "Wrapper for angular-gantt",
-    "keywords": ["yii2", "angular-gantt", "Gantt diagramm"],
+    "keywords": ["yii2", "angular-gantt", "Gantt diagramm", "professional web"],
     "type": "yii2-extension",
     "license": "MIT",
     "support": {
-        "email": "info@datalayer.ru",
-        "source": "https://github.com/DataLayerRU/ScheduleWidgetYII2"
+        "email": "info@web-development.pw",
+        "source": "https://github.com/SergioMadness/ScheduleWidgetYII2"
     },
     "authors": [
         {
             "name": "Sergey Zinchenko",
-            "email": "info@datalayer.ru",
-            "homepage": "http://datalayer.ru"
+            "email": "info@web-development.pw",
+            "homepage": "http://web-development.pw"
         }
     ],
     "require": {
@@ -26,7 +26,7 @@
     },
     "autoload": {
         "psr-4": {
-            "datalayerru\\ScheduleWidget\\": ""
+            "professionalweb\\ScheduleWidget\\": ""
         }
     }
 }

@@ -5,12 +5,12 @@
 
 ScheduleWidgetYII2 is available through [composer](https://getcomposer.org/)
 
-    composer require datalayerru/schedule-widget-yii2 "dev-master"
+    composer require professionalweb/schedule-widget-yii2 "dev-master"
   
 Alternatively you can add the following to the `require` section in your `composer.json` manually:
 
 ```json
-"datalayerru/schedule-widget-yii2": "dev-master"
+"professionalweb/schedule-widget-yii2": "dev-master"
 ```
 
 Run `composer update` afterwards.
@@ -21,7 +21,7 @@ Run `composer update` afterwards.
 Example:
 
 ```php
-use datalayerru\ScheduleWidget\ScheduleWidget;
+use professionalweb\ScheduleWidget\ScheduleWidget;
 
 echo ScheduleWidget::widget([
     'clientOptions' => [
@@ -127,7 +127,7 @@ ScheduleWidget::PLUGIN_TOOLTIP => [
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Sergey Zinchenko, DataLayer.ru
+Copyright (c) 2016 Sergey Zinchenko, [Professional web](http://web-development.pw/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

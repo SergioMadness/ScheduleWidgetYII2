@@ -1,6 +1,6 @@
 <?php
 
-namespace datalayerru\ScheduleWidget\plugins;
+namespace professionalweb\ScheduleWidget\plugins;
 
 class PluginProgress extends Plugin
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace datalayerru\ScheduleWidget;
+namespace professionalweb\ScheduleWidget;
 
 use yii\helpers\Json;
 
@@ -9,7 +9,7 @@ class ScheduleWidget extends \yii\base\Widget
     /**
      * Plugins' namespace
      */
-    const PLUGIN_PATH = 'datalayerru\ScheduleWidget\plugins';
+    const PLUGIN_PATH = 'professionalweb\ScheduleWidget\plugins';
 
     /**
      * 'Movable' plugin
