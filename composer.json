@@ -1,6 +1,6 @@
 {
     "name": "professionalweb/schedule-widget-yii2",
-    "version": "0.5.4",
+    "version": "0.5.5",
     "description": "Wrapper for angular-gantt",
     "keywords": ["yii2", "angular-gantt", "Gantt diagramm", "professional web"],
     "type": "yii2-extension",
