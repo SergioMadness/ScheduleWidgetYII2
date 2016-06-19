@@ -39,14 +39,8 @@ echo ScheduleWidget::widget([
         ScheduleWidget::PLUGIN_TOOLTIP => []
     ],
     'events' => [
-        ScheduleWidget::EVENT_ROW_CHANGE => new JsExpression('function(task){'
-                .'if(task.row.model.parent===\'Rent\') {'
-                .'task.$element.addClass(\'rented-row\');'
-                .'task.$element.removeClass(\'request-row\');'
-                .'} else {'
-                .'task.$element.removeClass(\'rented-row\');'
-                .'task.$element.addClass(\'request-row\');'
-                .'}'
+        ScheduleWidget::EVENT_TASK_MOVEEND => new JsExpression('function(task){'
+                .'console.log(task.row.model);'
                 .'}')
     ],
     'data' => '[
