@@ -20,7 +20,6 @@
         "yiisoft/yii2": "^2.0",
         "bower-asset/angular-latest": "1.5.8",
         "bower-asset/angular-ui-tree": "2.1.5",
-        "bower-asset/jquery-1.11.1": "~1",
         "bower-asset/moment-range": "~1",
         "bower-asset/css-element-queries": "0.3.2"
     },
