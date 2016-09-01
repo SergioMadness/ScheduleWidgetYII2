@@ -1,6 +1,6 @@
 {
     "name": "professionalweb/schedule-widget-yii2",
-    "version": "0.5.5",
+    "version": "0.5.6",
     "description": "Wrapper for angular-gantt",
     "keywords": ["yii2", "angular-gantt", "Gantt diagramm", "professional web"],
     "type": "yii2-extension",
@@ -17,12 +17,12 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "*",
-        "bower-asset/angular-latest": "*",
+        "yiisoft/yii2": "^2.0",
+        "bower-asset/angular-latest": "1.5.8",
         "bower-asset/angular-ui-tree": "2.1.5",
-        "bower-asset/jquery": "2.1.*@stable | 1.11.*@stable",
+        "bower-asset/jquery-1.11.1": "~1",
         "bower-asset/moment-range": "~1",
-        "bower-asset/css-element-queries": "*"
+        "bower-asset/css-element-queries": "0.3.2"
     },
     "autoload": {
         "psr-4": {
